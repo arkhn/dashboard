@@ -60,26 +60,55 @@ export default class MainView extends React.Component<IViewProps, IState> {
           <div id='dashboard'>
             <div id='admissions' className='dashboard-module'>
               <Admissions />
+              <Button
+                className='requestButton'
+                minimal icon='cog'
+                onClick={this.handleOpen}
+              />
             </div>
             <div id='attente' className='dashboard-module'>
               <div className='title'>Temps d'Attente aux Urgences<br/>(24 dernières heures)</div>
-              <Button minimal icon='cog' onClick={this.handleOpen} />
               <div className='value primary'>2 h 30 min</div>
+              <Button
+                className='requestButton'
+                minimal icon='cog'
+                onClick={this.handleOpen}
+              />
             </div>
             <div id='hospitalisation' className='dashboard-module'>
               <div className='title'>Taux d'Hospitalisation aux Urgence</div>
               <div className='value danger'>14 %</div>
+              <Button
+                className='requestButton'
+                minimal icon='cog'
+                onClick={this.handleOpen}
+              />
             </div>
             <div id='service' className='dashboard-module'>
               <div className='title'>Patients Hébergés Hors Service</div>
               <div className='value primary'>8</div>
+              <Button
+                className='requestButton'
+                minimal icon='cog'
+                onClick={this.handleOpen}
+              />
             </div>
             <div id='sejour' className='dashboard-module'>
               <div className='title'>Durée Moyenne de Séjour</div>
               <div className='value warning'>3 jours</div>
+              <Button
+                className='requestButton'
+                minimal icon='cog'
+                onClick={this.handleOpen}
+              />
             </div>
             <div id='gestes' className='dashboard-module'>
               <Gestes />
+              <Button
+                className='requestButton'
+                minimal icon='cog'
+                onClick={this.handleOpen}
+              />
             </div>
           </div>
         </div>

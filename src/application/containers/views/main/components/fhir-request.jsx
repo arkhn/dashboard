@@ -21,18 +21,16 @@ export class FhirRequest extends Component {
     render() {
         return (
             <span>
-                <a href="" onClick={this.openDrawer}>Show request</a>
                 <Drawer
                     className={Classes.DARK}
                     icon="info-sigh"
-                    onClose={this.closeDrawer}
+                    onClose={this.props.onClose}
                     title="Requete FHIR"
                     isOpen={this.props.isOpen}
                 >
                 <div className={Classes.DRAWER_BODY}>Ma requête FHIR biatch</div>
                 </Drawer>
             </span>
-
         )
     }
 }
