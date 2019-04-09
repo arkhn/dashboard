@@ -29,14 +29,15 @@ body {
   padding: @window-padding;
 
   // Grid
-  grid-template-rows: 1fr 4fr;
+  grid-template-rows: 1fr 1fr 2fr 2fr;
   grid-template-columns: repeat(6, 1fr);
   grid-column-gap: @window-padding;
   grid-row-gap: @window-padding;
   grid-template-areas:
-    "service service attente attente sejour sejour"
-    "entrees entrees entrees gestes gestes gestes"
-    "entrees entrees entrees gestes gestes gestes";
+    "admissions admissions admissions admissions attente attente"
+    "admissions admissions admissions admissions hospitalisation hospitalisation"
+    "sejour sejour gestes gestes gestes gestes"
+    "service service gestes gestes gestes gestes";
 
   & > * {
     padding: calc(2 * @window-padding);
@@ -78,22 +79,24 @@ body {
     }
   }
 
+  #admissions {
+    grid-area: admissions;
+  }
 
-  #sejour {
-    grid-area: sejour;
+  #hospitalisation {
+    grid-area: hospitalisation;
   }
 
   #attente {
     grid-area: attente;
   }
 
-  #service {
-    grid-area: service;
+  #sejour {
+    grid-area: sejour;
   }
 
-  #entrees {
-    overflow: hidden;
-    grid-area: entrees;
+  #service {
+    grid-area: service;
   }
 
   #gestes {

@@ -40,9 +40,16 @@ export default class MainView extends React.Component<IViewProps, IState> {
             </Navbar.Group>
           </Navbar>
           <div id='dashboard'>
+            <div id='admissions' className='dashboard-module'>
+              <Admissions />
+            </div>
             <div id='attente' className='dashboard-module'>
               <div className='title'>Temps d'Attente aux Urgences<br/>(24 dernières heures)</div>
               <div className='value primary'>2 h 30 min</div>
+            </div>
+            <div id='hospitalisation' className='dashboard-module'>
+              <div className='title'>Taux d'Hospitalisation aux Urgence</div>
+              <div className='value danger'>14 %</div>
             </div>
             <div id='service' className='dashboard-module'>
               <div className='title'>Patients Hébergés Hors Service</div>
@@ -50,11 +57,7 @@ export default class MainView extends React.Component<IViewProps, IState> {
             </div>
             <div id='sejour' className='dashboard-module'>
               <div className='title'>Durée Moyenne de Séjour</div>
-
               <div className='value warning'>3 jours</div>
-            </div>
-            <div id='entrees' className='dashboard-module'>
-              <Admissions />
             </div>
             <div id='gestes' className='dashboard-module'>
               <Gestes />

@@ -2,7 +2,7 @@ import { AxisBottom } from '@vx/axis';
 import { Group } from '@vx/group';
 import { ParentSize } from '@vx/responsive';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
-import { BarGroup } from '@vx/shape';
+import { BarGroup, LinePath } from '@vx/shape';
 import { timeParse, timeFormat } from 'd3-time-format';
 import React from 'react';
 
@@ -14,27 +14,27 @@ const blue = '#4580E6';
 const purple = '#9179F2';
 
 const data = [
-  {'date': '20190409', 'Entrées': 60, 'Sorties': 75},
-  {'date': '20190408', 'Entrées': 63, 'Sorties': 69},
-  {'date': '20190407', 'Entrées': 55, 'Sorties': 47},
-  {'date': '20190406', 'Entrées': 40, 'Sorties': 45},
-  {'date': '20190405', 'Entrées': 63, 'Sorties': 53},
-  {'date': '20190404', 'Entrées': 71, 'Sorties': 55},
   {'date': '20190403', 'Entrées': 57, 'Sorties': 58},
+  {'date': '20190404', 'Entrées': 71, 'Sorties': 55},
+  {'date': '20190405', 'Entrées': 63, 'Sorties': 53},
+  {'date': '20190406', 'Entrées': 40, 'Sorties': 45},
+  {'date': '20190407', 'Entrées': 55, 'Sorties': 47},
+  {'date': '20190408', 'Entrées': 63, 'Sorties': 69},
+  {'date': '20190409', 'Entrées': 60, 'Sorties': 75},
 ]
 const dataLastYear = [
-  {'date': '20180409', 'Entrées': 55, 'Sorties': 54},
-  {'date': '20180408', 'Entrées': 61, 'Sorties': 52},
-  {'date': '20180407', 'Entrées': 59, 'Sorties': 58},
-  {'date': '20180406', 'Entrées': 37, 'Sorties': 52},
-  {'date': '20180405', 'Entrées': 45, 'Sorties': 53},
-  {'date': '20180404', 'Entrées': 43, 'Sorties': 47},
   {'date': '20180403', 'Entrées': 48, 'Sorties': 45},
+  {'date': '20180404', 'Entrées': 43, 'Sorties': 47},
+  {'date': '20180405', 'Entrées': 45, 'Sorties': 53},
+  {'date': '20180406', 'Entrées': 37, 'Sorties': 52},
+  {'date': '20180407', 'Entrées': 59, 'Sorties': 58},
+  {'date': '20180408', 'Entrées': 61, 'Sorties': 52},
+  {'date': '20180409', 'Entrées': 55, 'Sorties': 54},
 ]
 const keys = ['Entrées', "Sorties"]
 
 const parseDate = timeParse('%Y%m%d');
-const format = timeFormat('%b %d');
+const format = timeFormat('%a %d %b');
 const formatDate = date => format(parseDate(date));
 
 // accessors
@@ -81,7 +81,6 @@ export default ({padding={top: 40}}) => {
         x0Scale.rangeRound([0, xMax]);
         x0ScaleLastYear.rangeRound([0, xMax]);
         x1Scale.rangeRound([0, x0Scale.bandwidth()]);
-        x1ScaleLastYear.rangeRound([0, x0ScaleLastYear.bandwidth()]);
         yScale.range([yMax, 0]);
 
         return <svg width={w} height={h}>
@@ -124,44 +123,22 @@ export default ({padding={top: 40}}) => {
                 });
               }}
             </BarGroup>
-            <BarGroup
+            <LinePath
               data={dataLastYear}
-              keys={keys}
-              height={yMax}
-              x0={x0}
-              x0Scale={x0ScaleLastYear}
-              x1Scale={x1ScaleLastYear}
-              yScale={yScale}
-              color={color}
-            >
-              {(barGroups) => {
-                return barGroups.map(barGroup => {
-                  return (
-                    <Group key={`bar-group-${barGroup.index}-${barGroup.x0}`} left={barGroup.x0}>
-                      {barGroup.bars.map(bar => {
-                        return (
-                          <rect
-                            className='comparison'
-                            key={`bar-group-bar-${barGroup.index}-${bar.index}-${bar.value}-${bar.key}`}
-                            x={bar.x}
-                            y={bar.y}
-                            width={bar.width}
-                            height={bar.height}
-                            fill={bar.color}
-                            fillOpacity={0.5}
-                            rx={4}
-                            onClick={event => {
-                              const { key, value } = bar;
-                              alert(JSON.stringify({ key, value }));
-                            }}
-                          />
-                        );
-                      })}
-                    </Group>
-                  );
-                });
-              }}
-            </BarGroup>
+              x={d => x0ScaleLastYear(d.date) + 0.5 * x1Scale.bandwidth()}
+              y={d => yScale(d['Entrées'])}
+              opacity={0.7}
+              stroke={'#2965CC'}
+              strokeWidth={3}
+            />
+            <LinePath
+              data={dataLastYear}
+              x={d => x0ScaleLastYear(d.date) + 1.5 * x1Scale.bandwidth()}
+              y={d => yScale(d['Sorties'])}
+              opacity={0.7}
+              stroke={'#7157D9'}
+              strokeWidth={3}
+            />
             <AxisBottom
             top={yMax}
             tickFormat={formatDate}
