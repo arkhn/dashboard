@@ -1,51 +1,39 @@
-import React from 'react'
+import React, { Component } from 'react'
 
+import { Drawer, Classes } from '@blueprintjs/core'
 
-import Popup from 'reactjs-popup'
+export class FhirRequest extends Component {
 
-export default () => (
-  <Popup trigger={<button className="button"> Open Modal </button>} modal>
-    {close => (
-      <div className="modal">
-        <a className="close" onClick={close}>
-          &times;
-        </a>
-        <div className="header"> Modal Title </div>
-        <div className="content">
-          {' '}
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum.
-          Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates
-          delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos?
-          <br />
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit
-          commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae
-          explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?
-        </div>
-        <div className="actions">
-          <Popup
-            trigger={<button className="button"> Trigger </button>}
-            position="top center"
-            closeOnDocumentClick
-          >
+    constructor() {
+        super()
+        this.state = { isOpen: true}
+        this.openDrawer = this.openDrawer.bind(this)
+        this.closeDrawer = this.closeDrawer.bind(this)
+    }
+
+    
+    openDrawer() {
+        this.setState({isOpen: true})
+    }
+    closeDrawer() {
+        this.setState({isOpen: false})
+    }
+
+    render() {
+        return (
             <span>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae
-              magni omnis delectus nemo, maxime molestiae dolorem numquam
-              mollitia, voluptate ea, accusamus excepturi deleniti ratione
-              sapiente! Laudantium, aperiam doloribus. Odit, aut.
+                <a href="" onClick={this.openDrawer}>Show request</a>
+                <Drawer
+                className={Classes.DARK}
+                icon="info-sigh"
+                onClose={this.closeDrawer}
+                title="Requete FHIR"
+                isOpen={this.state.isOpen}
+                >
+                <div className={Classes.DRAWER_BODY}>Ma requête FHIR biatch</div> 
+                </Drawer>
             </span>
-          </Popup>
-          <button
-            className="button"
-            onClick={() => {
-              console.log('modal closed ')
-              close()
-            }}
-          >
-            close modal
-          </button>
-        </div>
-      </div>
-    )}
-  </Popup>
-)
 
+        )
+    }
+}

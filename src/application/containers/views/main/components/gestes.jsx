@@ -4,7 +4,7 @@ import { Group } from '@vx/group';
 import { GradientPinkBlue } from '@vx/gradient';
 import { letterFrequency, browserUsage } from '@vx/mock-data';
 import { ParentSize } from '@vx/responsive';
-import FhirRequest from './fhir-request';
+import { FhirRequest } from './fhir-request';
 
 import './style.less'
 
