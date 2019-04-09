@@ -3,6 +3,7 @@ import { Group } from '@vx/group';
 import { ParentSize } from '@vx/responsive';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
 import { BarGroup, LinePath } from '@vx/shape';
+import { withTooltip, Tooltip } from '@vx/tooltip';
 import { timeParse, timeFormat } from 'd3-time-format';
 import React from 'react';
 
@@ -70,90 +71,145 @@ const color = scaleOrdinal({
   range: [blue, purple]
 });
 
+let tooltipTimeout;
+
+const TestComponent = withTooltip(
+  ({
+    w,
+    h,
+    padding={top: 40},
+    tooltipOpen,
+    tooltipLeft,
+    tooltipTop,
+    tooltipData,
+    hideTooltip,
+    showTooltip
+  }) => {
+    // bounds
+    const xMax = w;
+    const yMax = h - padding.top - 50;
+
+    x0Scale.rangeRound([0, xMax]);
+    x0ScaleLastYear.rangeRound([0, xMax]);
+    x1Scale.rangeRound([0, x0Scale.bandwidth()]);
+    yScale.range([yMax, 0]);
+
+    return (
+      <svg width={w} height={h}>
+        <rect x={0} y={0} width={w} height={h} className='svg-dashboard-module'/>
+        <text className='title'>Entrées et Sorties</text>
+        <Group top={padding.top}>
+          <BarGroup
+            data={data}
+            keys={keys}
+            height={yMax}
+            x0={x0}
+            x0Scale={x0Scale}
+            x1Scale={x1Scale}
+            yScale={yScale}
+            color={color}
+          >
+            {(barGroups) => {
+              return barGroups.map(barGroup => {
+                return (
+                  <Group key={`bar-group-${barGroup.index}-${barGroup.x0}`} left={barGroup.x0}>
+                    {barGroup.bars.map(bar => {
+                      return (
+                        <rect
+                          className='admission-bar'
+                          key={`bar-group-bar-${barGroup.index}-${bar.index}-${bar.value}-${bar.key}`}
+                          x={bar.x}
+                          y={bar.y}
+                          width={bar.width}
+                          height={bar.height}
+                          fill={bar.color}
+                          rx={4}
+                          onClick={event => {
+                            const { key, value } = bar;
+                            alert(JSON.stringify({ key, value }));
+                          }}
+                          onMouseLeave={event => {
+                            tooltipTimeout = setTimeout(() => {
+                              hideTooltip();
+                            }, 300);
+                          }}
+                          onMouseMove={event => {
+                            if (tooltipTimeout) clearTimeout(tooltipTimeout);
+                            const top = bar.y;
+                            const left = bar.x + bar.width;
+                            showTooltip({
+                              tooltipData: bar,
+                              tooltipTop: top,
+                              tooltipLeft: left
+                            });
+                          }}
+                        />
+                      );
+                    })}
+                  </Group>
+                );
+              });
+            }}
+          </BarGroup>
+          <LinePath
+            data={dataLastYear}
+            x={d => x0ScaleLastYear(d.date) + 0.5 * x1Scale.bandwidth()}
+            y={d => yScale(d['Entrées'])}
+            opacity={0.7}
+            stroke={'#2965CC'}
+            strokeWidth={3}
+          />
+          <LinePath
+            data={dataLastYear}
+            x={d => x0ScaleLastYear(d.date) + 1.5 * x1Scale.bandwidth()}
+            y={d => yScale(d['Sorties'])}
+            opacity={0.7}
+            stroke={'#7157D9'}
+            strokeWidth={3}
+          />
+          <AxisBottom
+          top={yMax}
+          tickFormat={formatDate}
+          scale={x0Scale}
+          stroke={darkgray1}
+          tickStroke={darkgray1}
+          hideAxisLine={true}
+          tickLabelProps={(value, index) => ({
+            fill: darkgray1,
+            fontSize: 11,
+            textAnchor: 'middle'
+          })}
+          />
+        </Group>
+        {tooltipOpen && (
+          <Tooltip
+            top={tooltipTop}
+            left={tooltipLeft}
+            style={{
+              minWidth: 60,
+              backgroundColor: 'rgba(0,0,0,0.9)',
+              color: 'white'
+            }}
+          >
+            <div style={{ color: color(tooltipData.key) }}>
+              <strong>{tooltipData.key}</strong>
+            </div>
+            <div>{tooltipData.bar.data[tooltipData.key]}℉</div>
+            <div>
+              <small>{formatDate(y(tooltipData.bar.data))}</small>
+            </div>
+          </Tooltip>
+        )}
+      </svg>
+    )
+  }
+)
+
 export default ({padding={top: 40}}) => {
   return (
     <ParentSize>
       {({width: w, height: h}) => {
-        // bounds
-        const xMax = w;
-        const yMax = h - padding.top - 50;
-
-        x0Scale.rangeRound([0, xMax]);
-        x0ScaleLastYear.rangeRound([0, xMax]);
-        x1Scale.rangeRound([0, x0Scale.bandwidth()]);
-        yScale.range([yMax, 0]);
-
-        return <svg width={w} height={h}>
-          <rect x={0} y={0} width={w} height={h} className='svg-dashboard-module'/>
-          <text className='title'>Entrées et Sorties</text>
-          <Group top={padding.top}>
-            <BarGroup
-              data={data}
-              keys={keys}
-              height={yMax}
-              x0={x0}
-              x0Scale={x0Scale}
-              x1Scale={x1Scale}
-              yScale={yScale}
-              color={color}
-            >
-              {(barGroups) => {
-                return barGroups.map(barGroup => {
-                  return (
-                    <Group key={`bar-group-${barGroup.index}-${barGroup.x0}`} left={barGroup.x0}>
-                      {barGroup.bars.map(bar => {
-                        return (
-                          <rect
-                            key={`bar-group-bar-${barGroup.index}-${bar.index}-${bar.value}-${bar.key}`}
-                            x={bar.x}
-                            y={bar.y}
-                            width={bar.width}
-                            height={bar.height}
-                            fill={bar.color}
-                            rx={4}
-                            onClick={event => {
-                              const { key, value } = bar;
-                              alert(JSON.stringify({ key, value }));
-                            }}
-                          />
-                        );
-                      })}
-                    </Group>
-                  );
-                });
-              }}
-            </BarGroup>
-            <LinePath
-              data={dataLastYear}
-              x={d => x0ScaleLastYear(d.date) + 0.5 * x1Scale.bandwidth()}
-              y={d => yScale(d['Entrées'])}
-              opacity={0.7}
-              stroke={'#2965CC'}
-              strokeWidth={3}
-            />
-            <LinePath
-              data={dataLastYear}
-              x={d => x0ScaleLastYear(d.date) + 1.5 * x1Scale.bandwidth()}
-              y={d => yScale(d['Sorties'])}
-              opacity={0.7}
-              stroke={'#7157D9'}
-              strokeWidth={3}
-            />
-            <AxisBottom
-            top={yMax}
-            tickFormat={formatDate}
-            scale={x0Scale}
-            stroke={darkgray1}
-            tickStroke={darkgray1}
-            hideAxisLine={true}
-            tickLabelProps={(value, index) => ({
-              fill: darkgray1,
-              fontSize: 11,
-              textAnchor: 'middle'
-            })}
-            />
-          </Group>
-        </svg>
+        return <TestComponent padding={padding} w={w} h={h}/>
       }}
     </ParentSize>
   );
