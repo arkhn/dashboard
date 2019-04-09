@@ -17,9 +17,9 @@ const browserNames = Object.keys(browserUsage[0]).filter(k => k !== 'date');
 const browsers = browserNames.map(k => ({ label: k, usage: browserUsage[0][k] }));
 
 const data = [
-  {'actes': 33, 'cash': 35000, 'name': 'Chirurgie'},
-  {'actes': 45, 'cash': 25000, 'name': 'Ophtalmologie'},
-  {'actes': 50, 'cash': 30000, 'name': 'ORL'},
+  {'actes': 33, 'cash': 35000, 'name': 'Autre chirurgie'},
+  {'actes': 45, 'cash': 15000, 'name': 'Ophtalmologie'},
+  {'actes': 5, 'cash': 3000, 'name': 'ORL'},
 ]
 const actes = d => d.actes;
 const cash = d => d.cash;
@@ -40,7 +40,7 @@ export default () => {
         return (
           <svg width={w} height={h}>
             <rect width={w} height={h} className='svg-dashboard-module' />
-            <text className='title'>Gestes Côtables</text>
+            <text className='title'>Actes tarifés</text>
             <Group top={centerY} left={centerX}>
               <Pie
               data={data}
