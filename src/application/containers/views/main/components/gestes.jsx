@@ -10,15 +10,11 @@ import './style.less'
 const white = '#FFFFFF';
 const black = '#10161A';
 
-// const colors = ["#2965CC", "#29A634", "#8F398F", "#00B3A4", "#DB2C6F", "#9BBF30", "#96622D", "#7157D9", "#D99E0B", "#D13913"];
-const colors = ['#FF6E4A', '#669EFF', '#C274C2', '#62D96B', '#AD99FF', '#2EE6D6', '#D1F26D', '#FFC940', '#C99765', '#FF66A1']
+const colors = ['#669EFF', '#C274C2', '#62D96B', '#AD99FF', '#2EE6D6', '#D1F26D', '#FFC940', '#C99765', '#FF66A1', '#FF6E4A']
 
 const letters = letterFrequency.slice(0, 4);
 const browserNames = Object.keys(browserUsage[0]).filter(k => k !== 'date');
 const browsers = browserNames.map(k => ({ label: k, usage: browserUsage[0][k] }));
-console.log(letters)
-console.log(browserNames)
-console.log(browsers)
 
 const data = [
   {'actes': 33, 'cash': 35000, 'name': 'Chirurgie'},
@@ -31,7 +27,7 @@ const cash = d => d.cash;
 const usage = d => d.usage;
 const frequency = d => d.frequency;
 
-export default ({ margin={top: 40} }) => {
+export default () => {
   const totalCash = data.map(cash).reduce((a,b) => a+b, 0)
 
   return (
@@ -44,13 +40,13 @@ export default ({ margin={top: 40} }) => {
         return (
           <svg width={w} height={h}>
             <rect width={w} height={h} className='svg-dashboard-module' />
-            <text>Gestes côtables</text>
-            <Group top={centerY - margin.top} left={centerX}>
+            <text className='title'>Gestes Côtables</text>
+            <Group top={centerY} left={centerX}>
               <Pie
               data={data}
               pieValue={actes}
-              outerRadius={radius - 80}
-              innerRadius={radius - 120}
+              outerRadius={0.8 * radius}
+              innerRadius={0.6 * radius}
               cornerRadius={3}
               padAngle={0}
               >
@@ -68,7 +64,7 @@ export default ({ margin={top: 40} }) => {
                       x={centroidX}
                       y={centroidY}
                       dy=".33em"
-                      fontSize={12}
+                      fontSize={14}
                       textAnchor="middle"
                       >
                       {arc.data.name}
@@ -83,7 +79,7 @@ export default ({ margin={top: 40} }) => {
               data={data}
               pieValue={cash}
               pieSortValues={(a, b) => -1}
-              outerRadius={radius - 135}
+              outerRadius={0.4 * radius}
               >
               {pie => {
                 return pie.arcs.map((arc, i) => {
@@ -97,7 +93,7 @@ export default ({ margin={top: 40} }) => {
                     x={centroidX}
                     y={centroidY}
                     dy=".33em"
-                    fontSize={12}
+                    fontSize={16}
                     textAnchor="middle"
                     >
                     {Math.round(100 *arc.data.cash / totalCash)}%

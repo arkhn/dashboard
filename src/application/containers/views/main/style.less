@@ -8,3 +8,96 @@ body {
     background-color: @light-gray5;
     color: @black;
 }
+
+#navbar {
+  background-color: @black;
+}
+
+.bp3-navbar-heading {
+  display: flex;
+
+  h2 {
+    margin: 0px 0px 0px 9px;
+    color: @white;
+  }
+}
+
+#dashboard {
+  display: grid;
+  width: 100%;
+  height: calc(100vh - 50px);
+  padding: @window-padding;
+
+  // Grid
+  grid-template-rows: 1fr 4fr;
+  grid-template-columns: repeat(6, 1fr);
+  grid-column-gap: @window-padding;
+  grid-row-gap: @window-padding;
+  grid-template-areas:
+    "service service attente attente sejour sejour"
+    "entrees entrees entrees gestes gestes gestes"
+    "entrees entrees entrees gestes gestes gestes";
+
+  & > * {
+    padding: calc(2 * @window-padding);
+  }
+
+  .comparison {
+    fill-opacity: 0;
+    stroke: @black;
+    stroke-width: 2px;
+    stroke-opacity: 0.4;
+    stroke-dasharray: 6,8;
+  }
+
+  .svg-dashboard-module {
+    fill: @light-gray3;
+    rx: 5;
+  }
+
+  .dashboard-module {
+    background-color: @light-gray4;
+    border-radius: 5px;
+    padding: @window-padding;
+
+    .title {
+      fill: @gray2;
+      color: @gray2;
+      font-size: 1.5em;
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+
+    svg .title {
+      transform: translate(0, 1.5em);
+    }
+
+    .value{
+      font-size: 4em;
+      font-weight: 700;
+    }
+  }
+
+
+  #sejour {
+    grid-area: sejour;
+  }
+
+  #attente {
+    grid-area: attente;
+  }
+
+  #service {
+    grid-area: service;
+  }
+
+  #entrees {
+    overflow: hidden;
+    grid-area: entrees;
+  }
+
+  #gestes {
+    grid-area: gestes;
+  }
+
+}

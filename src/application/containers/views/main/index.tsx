@@ -11,7 +11,7 @@ import BarGroup from '../../../components/barGroup'
 import Lines from '../../../components/lines'
 import ResponsiveLines from '../../../components/responsiveLines'
 
-import Entries from './components/entries'
+import Admissions from './components/admissions'
 import Gestes from './components/gestes'
 
 const arkhnLogoWhite = require("../../../../assets/img/arkhn_logo_only_white.svg")
@@ -40,22 +40,23 @@ export default class MainView extends React.Component<IViewProps, IState> {
             </Navbar.Group>
           </Navbar>
           <div id='dashboard'>
-            <div id='sejour' className='dashboard-module'>
-              <div className='title'>Durée Moyenne de Séjour</div>
-              <div className='value'>3 jours</div>
-            </div>
             <div id='attente' className='dashboard-module'>
-              <div className='title'>Temps d'Attente aux Urgences</div>
-              <div className='value'>2 h 30 min</div>
+              <div className='title'>Temps d'Attente aux Urgences<br/>(24 dernières heures)</div>
+              <div className='value primary'>2 h 30 min</div>
             </div>
             <div id='service' className='dashboard-module'>
               <div className='title'>Patients Hébergés Hors Service</div>
-              <div className='value'>8</div>
+              <div className='value primary'>8</div>
             </div>
-            <div id='entrees'>
-              <Entries />
+            <div id='sejour' className='dashboard-module'>
+              <div className='title'>Durée Moyenne de Séjour</div>
+
+              <div className='value warning'>3 jours</div>
             </div>
-            <div id='gestes'>
+            <div id='entrees' className='dashboard-module'>
+              <Admissions />
+            </div>
+            <div id='gestes' className='dashboard-module'>
               <Gestes />
             </div>
           </div>
