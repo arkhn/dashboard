@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "experimentalDecorators": true,
+        "target": "es6",
+        "allowJs": true,
+        "lib": ["es6", "dom", "esnext"],
+    },
+    "include": [
+        "**/*.tsx"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
