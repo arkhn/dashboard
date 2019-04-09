@@ -38,7 +38,7 @@ export default ({ width, height }) => {
 
   return (
     <svg width={width} height={height}>
-      <rect x={0} y={0} width={width} height={height} fill="#242424" rx={14} />
+      <rect x={0} y={0} width={width} height={height} fill="#242424" rx={3} />
       {xMax > 8 &&
         series.map((d, i) => {
           return (
