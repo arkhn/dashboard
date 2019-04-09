@@ -4,7 +4,6 @@ import { Group } from '@vx/group';
 import { GradientPinkBlue } from '@vx/gradient';
 import { letterFrequency, browserUsage } from '@vx/mock-data';
 import { ParentSize } from '@vx/responsive';
-import { FhirRequest } from './fhir-request';
 
 import './style.less'
 
@@ -41,8 +40,8 @@ export default () => {
         return (
           <svg width={w} height={h}>
             <rect width={w} height={h} className='svg-dashboard-module' />
-            <text className='title'>Actes tarifés <FhirRequest /></text>
-            
+            <text className='title'>Actes tarifés</text>
+
             <Group top={centerY} left={centerX}>
               <Pie
               data={data}

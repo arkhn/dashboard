@@ -1,5 +1,6 @@
 import {
   Alignment,
+  Button,
   Navbar,
 } from '@blueprintjs/core'
 import * as React from 'react'
@@ -13,6 +14,7 @@ import ResponsiveLines from '../../../components/responsiveLines'
 
 import Admissions from './components/admissions'
 import Gestes from './components/gestes'
+import { FhirRequest } from './components/fhir-request';
 
 const arkhnLogoWhite = require("../../../../assets/img/arkhn_logo_only_white.svg")
 
@@ -21,12 +23,21 @@ export interface IViewProps {
 }
 
 interface IState {
-
+  isOpen: boolean,
 }
 
 export default class MainView extends React.Component<IViewProps, IState> {
     constructor(props: IViewProps) {
         super(props)
+        this.state = {
+          isOpen: false,
+        }
+    }
+
+    handleOpen = () => {
+      this.setState({
+        isOpen: true,
+      })
     }
 
     public render = () => {
@@ -39,12 +50,20 @@ export default class MainView extends React.Component<IViewProps, IState> {
               </Navbar.Heading>
             </Navbar.Group>
           </Navbar>
+          <FhirRequest
+            isOpen={this.state.isOpen}
+            onClose={(event: any) => {
+              console.log('here')
+              this.setState({isOpen: false})
+            }}
+          />
           <div id='dashboard'>
             <div id='admissions' className='dashboard-module'>
               <Admissions />
             </div>
             <div id='attente' className='dashboard-module'>
               <div className='title'>Temps d'Attente aux Urgences<br/>(24 dernières heures)</div>
+              <Button minimal icon='cog' onClick={this.handleOpen} />
               <div className='value primary'>2 h 30 min</div>
             </div>
             <div id='hospitalisation' className='dashboard-module'>
