@@ -9,7 +9,9 @@ import React from 'react';
 
 import './style.less'
 
-const blue = '#2965CC';
+const black = '#10161A';
+const darkgray1 = '#182026';
+const blue = '#4580E6';
 const purple = '#9179F2';
 
 // const data = cityTemperature.slice(0, 8);
@@ -25,8 +27,6 @@ const data = [
   {'date': '20190403', 'Entrées': 57, 'Sorties': 58},
 ]
 const keys = ['Entrées', "Sorties"]
-console.log(data)
-console.log(keys)
 
 const parseDate = timeParse('%Y%m%d');
 const format = timeFormat('%b %d');
@@ -53,75 +53,78 @@ const color = scaleOrdinal({
 });
 
 export default ({
-  width,
-  height,
   margin = {
     top: 40
   }
 }) => {
-  // bounds
-  const xMax = width;
-  const yMax = height - margin.top - 50;
-
-  x0Scale.rangeRound([0, xMax]);
-  x1Scale.rangeRound([0, x0Scale.bandwidth()]);
-  yScale.range([yMax, 0]);
-
   return (
-    <svg width={width} height={height}>
-      <rect x={0} y={0} width={width} height={height} rx={4} className='dashboard-back'/>
-      <Group top={margin.top}>
-        <text>Entrées / Sorties</text>
-        <BarGroup
-          data={data}
-          keys={keys}
-          height={yMax}
-          x0={x0}
-          x0Scale={x0Scale}
-          x1Scale={x1Scale}
-          yScale={yScale}
-          color={color}
-        >
-          {(barGroups) => {
-            return barGroups.map(barGroup => {
-              return (
-                <Group key={`bar-group-${barGroup.index}-${barGroup.x0}`} left={barGroup.x0}>
-                  {barGroup.bars.map(bar => {
-                    return (
-                      <rect
-                        key={`bar-group-bar-${barGroup.index}-${bar.index}-${bar.value}-${bar.key}`}
-                        x={bar.x}
-                        y={bar.y}
-                        width={bar.width}
-                        height={bar.height}
-                        fill={bar.color}
-                        rx={4}
-                        onClick={event => {
-                          const { key, value } = bar;
-                          alert(JSON.stringify({ key, value }));
-                        }}
-                      />
-                    );
-                  })}
-                </Group>
-              );
-            });
-          }}
-        </BarGroup>
-      </Group>
-      <AxisBottom
-        top={yMax + margin.top}
-        tickFormat={formatDate}
-        scale={x0Scale}
-        stroke={blue}
-        tickStroke={blue}
-        hideAxisLine={true}
-        tickLabelProps={(value, index) => ({
-          fill: blue,
-          fontSize: 11,
-          textAnchor: 'middle'
-        })}
-      />
-    </svg>
+    <ParentSize>
+      {({width: w, height: h}) => {
+        // bounds
+        const xMax = w;
+        console.log(h)
+        const yMax = h - margin.top - 50;
+
+        x0Scale.rangeRound([0, xMax]);
+        x1Scale.rangeRound([0, x0Scale.bandwidth()]);
+        yScale.range([yMax, 0]);
+
+        return <svg width={w} height={h}>
+          <rect x={0} y={0} width={w} height={h} className='svg-dashboard-module'/>
+          <Group top={margin.top}>
+            <text>Entrées / Sorties</text>
+            <BarGroup
+              data={data}
+              keys={keys}
+              height={yMax}
+              x0={x0}
+              x0Scale={x0Scale}
+              x1Scale={x1Scale}
+              yScale={yScale}
+              color={color}
+            >
+              {(barGroups) => {
+                return barGroups.map(barGroup => {
+                  return (
+                    <Group key={`bar-group-${barGroup.index}-${barGroup.x0}`} left={barGroup.x0}>
+                      {barGroup.bars.map(bar => {
+                        return (
+                          <rect
+                            key={`bar-group-bar-${barGroup.index}-${bar.index}-${bar.value}-${bar.key}`}
+                            x={bar.x}
+                            y={bar.y}
+                            width={bar.width}
+                            height={bar.height}
+                            fill={bar.color}
+                            rx={4}
+                            onClick={event => {
+                              const { key, value } = bar;
+                              alert(JSON.stringify({ key, value }));
+                            }}
+                          />
+                        );
+                      })}
+                    </Group>
+                  );
+                });
+              }}
+            </BarGroup>
+          </Group>
+          <AxisBottom
+            top={yMax + margin.top}
+            tickFormat={formatDate}
+            scale={x0Scale}
+            stroke={darkgray1}
+            tickStroke={darkgray1}
+            hideAxisLine={true}
+            tickLabelProps={(value, index) => ({
+              fill: darkgray1,
+              fontSize: 11,
+              textAnchor: 'middle'
+            })}
+          />
+        </svg>
+      }}
+    </ParentSize>
   );
 };

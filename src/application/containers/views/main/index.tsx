@@ -1,3 +1,7 @@
+import {
+  Alignment,
+  Navbar,
+} from '@blueprintjs/core'
 import * as React from 'react'
 
 import './style.less'
@@ -8,6 +12,9 @@ import Lines from '../../../components/lines'
 import ResponsiveLines from '../../../components/responsiveLines'
 
 import Entries from './components/entries'
+import Gestes from './components/gestes'
+
+const arkhnLogoWhite = require("../../../../assets/img/arkhn_logo_only_white.svg")
 
 export interface IViewProps {
 
@@ -24,8 +31,34 @@ export default class MainView extends React.Component<IViewProps, IState> {
 
     public render = () => {
         return <div>
-          <div>Sextan</div>
-          <Entries width={600} height={400}/>
+          <Navbar id="navbar" className="bp3-dark">
+            <Navbar.Group align={Alignment.LEFT}>
+              <Navbar.Heading>
+                <span dangerouslySetInnerHTML={{__html: arkhnLogoWhite}} />
+                <h2>ARKHN</h2>
+              </Navbar.Heading>
+            </Navbar.Group>
+          </Navbar>
+          <div id='dashboard'>
+            <div id='sejour' className='dashboard-module'>
+              <div className='title'>Durée Moyenne de Séjour</div>
+              <div className='value'>3 jours</div>
+            </div>
+            <div id='attente' className='dashboard-module'>
+              <div className='title'>Temps d'Attente aux Urgences</div>
+              <div className='value'>2 h 30 min</div>
+            </div>
+            <div id='service' className='dashboard-module'>
+              <div className='title'>Patients Hébergés Hors Service</div>
+              <div className='value'>8</div>
+            </div>
+            <div id='entrees'>
+              <Entries />
+            </div>
+            <div id='gestes'>
+              <Gestes />
+            </div>
+          </div>
         </div>
     }
 }

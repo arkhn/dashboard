@@ -1,6 +1,82 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/core/lib/less/variables";
 
-.dashboard-back {
-  fill: @light-gray3;
+@window-padding: 15px;
+
+@blue: '#05386B';
+@green1: '#379683';
+@grenn2: '#5CDB95';
+@green3: '#8EE4AF';
+@yellow1: '#EDF5E1';
+
+.svg-dashboard-module {
+  fill: @light-gray4;
+  rx: 5;
+}
+
+.dashboard-module {
+  background-color: @light-gray4;
+  border-radius: 5px;
+  padding: 15px;
+
+  .title {
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .value{
+    font-size: 35px;
+    font-weight: 700;
+  }
+}
+
+#navbar {
+  background-color: @black;
+}
+
+.bp3-navbar-heading {
+  display: flex;
+
+  h2 {
+    margin: 0px 0px 0px 9px;
+    color: @white;
+  }
+}
+
+
+#dashboard {
+  display: grid;
+  width: 100%;
+  height: calc(100vh - 50px);
+  grid-template-rows: 1fr 4fr;
+  grid-template-columns: repeat(6, 1fr);
+  padding: @window-padding;
+  grid-column-gap: @window-padding;
+  grid-row-gap: @window-padding;
+  grid-template-areas:
+    "sejour sejour attente attente service service"
+    "entrees entrees entrees gestes gestes gestes"
+    "entrees entrees entrees gestes gestes gestes";
+
+  #sejour {
+    grid-area: sejour;
+  }
+
+  #attente {
+    grid-area: attente;
+  }
+
+  #service {
+    grid-area: service;
+  }
+
+  #entrees {
+    overflow: hidden;
+    grid-area: entrees;
+  }
+
+  #gestes {
+    grid-area: gestes;
+  }
+
 }
