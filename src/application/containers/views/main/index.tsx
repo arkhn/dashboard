@@ -53,7 +53,6 @@ export default class MainView extends React.Component<IViewProps, IState> {
           <FhirRequest
             isOpen={this.state.isOpen}
             onClose={(event: any) => {
-              console.log('here')
               this.setState({isOpen: false})
             }}
           />

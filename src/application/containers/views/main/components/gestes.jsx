@@ -5,8 +5,6 @@ import { GradientPinkBlue } from '@vx/gradient';
 import { letterFrequency, browserUsage } from '@vx/mock-data';
 import { ParentSize } from '@vx/responsive';
 
-import './style.less'
-
 const white = '#FFFFFF';
 const black = '#10161A';
 
