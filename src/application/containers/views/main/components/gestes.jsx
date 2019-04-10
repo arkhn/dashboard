@@ -1,12 +1,15 @@
-import React from 'react';
-import { Pie } from '@vx/shape';
-import { Group } from '@vx/group';
+import { Colors } from "@blueprintjs/core";
 import { GradientPinkBlue } from '@vx/gradient';
+import { Group } from '@vx/group';
 import { letterFrequency, browserUsage } from '@vx/mock-data';
 import { ParentSize } from '@vx/responsive';
+import { Pie } from '@vx/shape';
+import React from 'react';
 
-const white = '#FFFFFF';
-const black = '#10161A';
+const white = Colors.WHITE;
+const black = Colors.BLACK;
+
+const color1 = Colors.BLUE3;
 
 const colors = ['#669EFF', '#C274C2', '#62D96B', '#AD99FF', '#2EE6D6', '#D1F26D', '#FFC940', '#C99765', '#FF66A1', '#FF6E4A']
 
@@ -56,17 +59,17 @@ export default () => {
                   const hasSpaceForLabel = endAngle - startAngle >= 0.1;
                   return (
                     <g key={`browser-${arc.data.name}-${i}`}>
-                    <path d={pie.path(arc)} fill={colors[i]} />
+                    <path d={pie.path(arc)} fill={color1} fillOpacity={(pie.arcs.length - i) / pie.arcs.length} />
                     {hasSpaceForLabel && (
                       <text
-                      fill={black}
-                      x={centroidX}
-                      y={centroidY}
-                      dy=".33em"
-                      fontSize={14}
-                      textAnchor="middle"
+                        fill={black}
+                        x={centroidX}
+                        y={centroidY}
+                        dy=".33em"
+                        fontSize={16}
+                        textAnchor="middle"
                       >
-                      {arc.data.name}
+                        {arc.data.name}
                       </text>
                     )}
                     </g>
@@ -86,16 +89,16 @@ export default () => {
                   const [centroidX, centroidY] = pie.path.centroid(arc);
                   return (
                     <g key={`letters-${arc.data.name}-${i}`}>
-                    <path d={pie.path(arc)} fill={colors[i]} fillOpacity={0.5} />
+                    <path d={pie.path(arc)} fill={color1} fillOpacity={(pie.arcs.length - i) / pie.arcs.length}  />
                     <text
-                    fill={black}
-                    x={centroidX}
-                    y={centroidY}
-                    dy=".33em"
-                    fontSize={16}
-                    textAnchor="middle"
+                      fill={black}
+                      x={centroidX}
+                      y={centroidY}
+                      dy=".33em"
+                      fontSize={16}
+                      textAnchor="middle"
                     >
-                    {Math.round(100 *arc.data.cash / totalCash)}%
+                      {Math.round(100 *arc.data.cash / totalCash)}%
                     </text>
                     </g>
                   );

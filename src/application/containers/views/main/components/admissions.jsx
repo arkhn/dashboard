@@ -1,3 +1,4 @@
+import { Colors } from "@blueprintjs/core";
 import { AxisBottom } from '@vx/axis';
 import { Group } from '@vx/group';
 import { ParentSize } from '@vx/responsive';
@@ -7,10 +8,15 @@ import { withTooltip, Tooltip } from '@vx/tooltip';
 import { timeParse, timeFormat } from 'd3-time-format';
 import React from 'react';
 
-const black = '#10161A';
-const darkgray1 = '#182026';
-const blue = '#4580E6';
-const purple = '#9179F2';
+const black = Colors.BLACK;
+
+const color1 = Colors.BLUE2;
+const color12 = Colors.BLUE1;
+const color2 = Colors.BLUE4;
+const color22 = Colors.BLUE3;
+
+const axisColor = Colors.DARK_GRAY1;
+const tooltipColor = Colors.DARK_GRAY5;
 
 const data = [
   {'date': '20190403', 'Entrées': 57, 'Sorties': 58},
@@ -66,7 +72,7 @@ const yScale = scaleLinear({
 
 const color = scaleOrdinal({
   domain: keys,
-  range: [blue, purple]
+  range: [color1, color2]
 });
 
 let tooltipTimeout;
@@ -158,7 +164,7 @@ const TestComponent = withTooltip(
               x={d => x0ScaleLastYear(d.date) + 0.5 * x1Scale.bandwidth()}
               y={d => yScale(d['Entrées'])}
               opacity={0.7}
-              stroke={'#2965CC'}
+              stroke={color12}
               strokeWidth={3}
             />
             <LinePath
@@ -166,18 +172,18 @@ const TestComponent = withTooltip(
               x={d => x0ScaleLastYear(d.date) + 1.5 * x1Scale.bandwidth()}
               y={d => yScale(d['Sorties'])}
               opacity={0.7}
-              stroke={'#7157D9'}
+              stroke={color22}
               strokeWidth={3}
             />
             <AxisBottom
             top={yMax}
             tickFormat={formatDate}
             scale={x0Scale}
-            stroke={darkgray1}
-            tickStroke={darkgray1}
+            stroke={axisColor}
+            tickStroke={axisColor}
             hideAxisLine={true}
             tickLabelProps={(value, index) => ({
-              fill: darkgray1,
+              fill: axisColor,
               fontSize: 11,
               textAnchor: 'middle'
             })}
@@ -190,7 +196,7 @@ const TestComponent = withTooltip(
             left={tooltipLeft}
             style={{
               minWidth: 60,
-              backgroundColor: '#394B59',
+              backgroundColor: tooltipColor,
               color: 'white'
             }}
           >
