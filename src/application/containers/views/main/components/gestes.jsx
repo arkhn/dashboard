@@ -17,20 +17,27 @@ const letters = letterFrequency.slice(0, 4);
 const browserNames = Object.keys(browserUsage[0]).filter(k => k !== 'date');
 const browsers = browserNames.map(k => ({ label: k, usage: browserUsage[0][k] }));
 
-const data = [
-  {'actes': 33, 'cash': 35000, 'name': 'Autre chirurgie'},
-  {'actes': 45, 'cash': 15000, 'name': 'Ophtalmologie'},
-  {'actes': 5, 'cash': 3000, 'name': 'ORL'},
+let data = [
+  {'acte': 'Acte 1', 'Occurrences': 10, 'unitary_cost': 2000},
+  {'acte': 'Acte 2', 'Occurrences': 5, 'unitary_cost': 400},
+  {'acte': 'Acte 3', 'Occurrences': 35, 'unitary_cost': 120},
+  {'acte': 'Acte 4', 'Occurrences': 14, 'unitary_cost': 330},
+  {'acte': 'Acte 5', 'Occurrences': 1, 'unitary_cost': 8000},
+  {'acte': 'Acte 6', 'Occurrences': 2, 'unitary_cost': 1200},
+  {'acte': 'Acte 7', 'Occurrences': 4, 'unitary_cost': 80},
+  {'acte': 'Acte 8', 'Occurrences': 2, 'unitary_cost': 170},
 ]
-const actes = d => d.actes;
-const cash = d => d.cash;
 
-const usage = d => d.usage;
-const frequency = d => d.frequency;
+data = data.map((acte) => {
+  return {
+    ...acte,
+    Revenu: acte.Occurrences * acte.unitary_cost / 1000,
+  }
+})
+
+const revenu = d => d.Revenu;
 
 export default () => {
-  const totalCash = data.map(cash).reduce((a,b) => a+b, 0)
-
   return (
     <ParentSize>
       {({width: w, height: h}) => {
@@ -38,19 +45,23 @@ export default () => {
         const centerY = h / 2;
         const centerX = w / 2;
 
+        console.log(data)
+        const totalRecettes = data.reduce((a, b) => a + b.Revenu, 0)
+        console.log(totalRecettes)
+
         return (
           <svg width={w} height={h}>
             <rect width={w} height={h} className='svg-dashboard-module' />
-            <text className='title'>Actes tarifés</text>
+            <text className='title'>Recettes par Acte</text>
 
             <Group top={centerY} left={centerX}>
               <Pie
-              data={data}
-              pieValue={actes}
-              outerRadius={0.8 * radius}
-              innerRadius={0.6 * radius}
-              cornerRadius={3}
-              padAngle={0}
+                data={data}
+                pieValue={revenu}
+                outerRadius={0.7 * radius}
+                innerRadius={0.4 * radius}
+                cornerRadius={5}
+                padAngle={0.015}
               >
               {pie => {
                 return pie.arcs.map((arc, i) => {
@@ -69,7 +80,7 @@ export default () => {
                         fontSize={16}
                         textAnchor="middle"
                       >
-                        {arc.data.name}
+                        {arc.data.acte}
                       </text>
                     )}
                     </g>
@@ -77,34 +88,7 @@ export default () => {
                 });
               }}
               </Pie>
-              <Pie
-              data={data}
-              pieValue={cash}
-              pieSortValues={(a, b) => -1}
-              outerRadius={0.4 * radius}
-              >
-              {pie => {
-                return pie.arcs.map((arc, i) => {
-                  const opacity = 1 / (i + 2);
-                  const [centroidX, centroidY] = pie.path.centroid(arc);
-                  return (
-                    <g key={`letters-${arc.data.name}-${i}`}>
-                    <path d={pie.path(arc)} fill={color1} fillOpacity={(pie.arcs.length - i) / pie.arcs.length}  />
-                    <text
-                      fill={black}
-                      x={centroidX}
-                      y={centroidY}
-                      dy=".33em"
-                      fontSize={16}
-                      textAnchor="middle"
-                    >
-                      {Math.round(100 *arc.data.cash / totalCash)}%
-                    </text>
-                    </g>
-                  );
-                });
-              }}
-              </Pie>
+              <text style={{transform: "translate(-15px, 5px)"}}>{Math.round(totalRecettes)}K</text>
             </Group>
           </svg>
         )

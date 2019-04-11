@@ -18,41 +18,32 @@ const color22 = Colors.BLUE3;
 const axisColor = Colors.DARK_GRAY1;
 const tooltipColor = Colors.DARK_GRAY5;
 
-const data = [
-  {'date': '20190403', 'Entrées': 57, 'Sorties': 58},
-  {'date': '20190404', 'Entrées': 71, 'Sorties': 55},
-  {'date': '20190405', 'Entrées': 63, 'Sorties': 53},
-  {'date': '20190406', 'Entrées': 40, 'Sorties': 45},
-  {'date': '20190407', 'Entrées': 55, 'Sorties': 47},
-  {'date': '20190408', 'Entrées': 63, 'Sorties': 69},
-  {'date': '20190409', 'Entrées': 60, 'Sorties': 75},
+let data = [
+  {'acte': 'Acte 1', 'Occurrences': 10, 'unitary_cost': 2000},
+  {'acte': 'Acte 2', 'Occurrences': 5, 'unitary_cost': 400},
+  {'acte': 'Acte 3', 'Occurrences': 35, 'unitary_cost': 120},
+  {'acte': 'Acte 4', 'Occurrences': 14, 'unitary_cost': 330},
+  {'acte': 'Acte 5', 'Occurrences': 1, 'unitary_cost': 8000},
+  {'acte': 'Acte 6', 'Occurrences': 2, 'unitary_cost': 1200},
+  {'acte': 'Acte 7', 'Occurrences': 4, 'unitary_cost': 80},
+  {'acte': 'Acte 8', 'Occurrences': 2, 'unitary_cost': 170},
 ]
-const dataLastYear = [
-  {'date': '20180403', 'Entrées': 48, 'Sorties': 45},
-  {'date': '20180404', 'Entrées': 43, 'Sorties': 47},
-  {'date': '20180405', 'Entrées': 45, 'Sorties': 53},
-  {'date': '20180406', 'Entrées': 37, 'Sorties': 52},
-  {'date': '20180407', 'Entrées': 59, 'Sorties': 58},
-  {'date': '20180408', 'Entrées': 61, 'Sorties': 52},
-  {'date': '20180409', 'Entrées': 55, 'Sorties': 54},
-]
-const keys = ['Entrées', "Sorties"]
 
-const parseDate = timeParse('%Y%m%d');
-const format = timeFormat('%a %d %b');
-const formatDate = date => format(parseDate(date));
+data = data.map((acte) => {
+  return {
+    ...acte,
+    Revenu: acte.Occurrences * acte.unitary_cost / 1000,
+  }
+})
+
+const keys = ['Occurrences', 'Revenu']
 
 // accessors
-const x0 = d => d.date;
+const x0 = d => d.acte;
 
 // scales
 const x0Scale = scaleBand({
   domain: data.map(x0),
-  padding: 0.2
-});
-
-const x0ScaleLastYear = scaleBand({
-  domain: dataLastYear.map(x0),
   padding: 0.2
 });
 
@@ -61,13 +52,8 @@ const x1Scale = scaleBand({
   padding: 0.1
 });
 
-const x1ScaleLastYear = scaleBand({
-  domain: keys,
-  padding: 0.1
-});
-
 const yScale = scaleLinear({
-  domain: [0, Math.max(...data.concat(dataLastYear).map(d => Math.max(...keys.map(key => d[key]))))]
+  domain: [0, Math.max(...data.map(d => Math.max(...keys.map(key => d[key]))))]
 });
 
 const color = scaleOrdinal({
@@ -94,7 +80,6 @@ const TestComponent = withTooltip(
     const yMax = h - padding.top - 50;
 
     x0Scale.rangeRound([0, xMax]);
-    x0ScaleLastYear.rangeRound([0, xMax]);
     x1Scale.rangeRound([0, x0Scale.bandwidth()]);
     yScale.range([yMax, 0]);
 
@@ -102,7 +87,7 @@ const TestComponent = withTooltip(
       <div style={{position: 'relative'}}>
         <svg width={w} height={h}>
           <rect x={0} y={0} width={w} height={h} className='svg-dashboard-module'/>
-          <text className='title'>Entrées et Sorties</text>
+          <text className='title'>Actes Tarifés</text>
           <Group top={padding.top}>
             <BarGroup
               data={data}
@@ -159,25 +144,8 @@ const TestComponent = withTooltip(
                 });
               }}
             </BarGroup>
-            <LinePath
-              data={dataLastYear}
-              x={d => x0ScaleLastYear(d.date) + 0.5 * x1Scale.bandwidth()}
-              y={d => yScale(d['Entrées'])}
-              opacity={0.7}
-              stroke={color12}
-              strokeWidth={3}
-            />
-            <LinePath
-              data={dataLastYear}
-              x={d => x0ScaleLastYear(d.date) + 1.5 * x1Scale.bandwidth()}
-              y={d => yScale(d['Sorties'])}
-              opacity={0.7}
-              stroke={color22}
-              strokeWidth={3}
-            />
             <AxisBottom
               top={yMax}
-              tickFormat={formatDate}
               scale={x0Scale}
               stroke={axisColor}
               tickStroke={axisColor}
@@ -203,7 +171,7 @@ const TestComponent = withTooltip(
             <div style={{ color: tooltipData.color }}>
               <strong>{tooltipData.bar.key}</strong>
             </div>
-            <div>{tooltipData.bar.value}</div>
+            <div>{tooltipData.bar.key == "Revenu" ? tooltipData.bar.value * 1000 : tooltipData.bar.value}</div>
           </Tooltip>
         )}
       </div>

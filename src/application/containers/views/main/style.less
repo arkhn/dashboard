@@ -29,15 +29,15 @@ body {
   padding: @window-padding;
 
   // Grid
-  grid-template-rows: 1fr 1fr 2fr 2fr;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-column-gap: @window-padding;
   grid-row-gap: @window-padding;
   grid-template-areas:
-    "admissions admissions admissions admissions attente attente"
-    "admissions admissions admissions admissions hospitalisation hospitalisation"
-    "sejour sejour gestes gestes gestes gestes"
-    "service service gestes gestes gestes gestes";
+    "admissions gestesRevenu sejour"
+    "admissions gestesRevenu service"
+    "attente gestes gestes"
+    "hospitalisation gestes gestes";
 
   & > * {
     padding: calc(2 * @window-padding);
@@ -56,7 +56,7 @@ body {
   }
 
   .svg-dashboard-module {
-    fill: @light-gray3;
+    fill: @light-gray4;
     rx: 5;
   }
 
@@ -101,6 +101,7 @@ body {
 
   #admissions {
     grid-area: admissions;
+    overflow: hidden;
   }
 
   #hospitalisation {
@@ -121,6 +122,12 @@ body {
 
   #gestes {
     grid-area: gestes;
+    overflow: hidden;
+  }
+
+  #gestesRevenu {
+    grid-area: gestesRevenu;
+    overflow: hidden;
   }
 
   .right-align {
