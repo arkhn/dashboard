@@ -146,7 +146,7 @@ bonjour
             </div>
             <div id='sejour' className='dashboard-module'>
               <div className='title'>Durée Moyenne de Séjour</div>
-              <div className='value warning'>5 jours 13 h</div>
+              <div className='value warning'>5 jours</div>
               <Button
                 className='requestButton'
                 minimal icon='cog'
