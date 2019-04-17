@@ -1,10 +1,10 @@
-import React from 'react';
-import { Group } from '@vx/group';
-import { LinePath } from '@vx/shape';
-import { curveMonotoneX } from '@vx/curve';
-import { genDateValue } from '@vx/mock-data';
-import { scaleTime, scaleLinear } from '@vx/scale';
-import { extent, max } from 'd3-array';
+import React from "react";
+import { Group } from "@vx/group";
+import { LinePath } from "@vx/shape";
+import { curveMonotoneX } from "@vx/curve";
+import { genDateValue } from "@vx/mock-data";
+import { scaleTime, scaleLinear } from "@vx/scale";
+import { extent, max } from "d3-array";
 
 function genLines(num) {
   return new Array(num).fill(1).map(() => {
@@ -42,12 +42,12 @@ export default ({ width, height }) => {
       {xMax > 8 &&
         series.map((d, i) => {
           return (
-            <Group key={`lines-${i}`} top={i * yMax / 2}>
+            <Group key={`lines-${i}`} top={(i * yMax) / 2}>
               <LinePath
                 data={d}
                 x={d => xScale(x(d))}
                 y={d => yScale(y(d))}
-                stroke={'#ffffff'}
+                stroke={"#ffffff"}
                 strokeWidth={1}
                 curve={i % 2 == 0 ? curveMonotoneX : undefined}
               />
