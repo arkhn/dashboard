@@ -1,9 +1,9 @@
-import React from 'react';
-import { Bar } from '@vx/shape';
-import { Group } from '@vx/group';
-import { GradientTealBlue } from '@vx/gradient';
-import { letterFrequency } from '@vx/mock-data';
-import { scaleBand, scaleLinear } from '@vx/scale';
+import React from "react";
+import { Bar } from "@vx/shape";
+import { Group } from "@vx/group";
+import { GradientTealBlue } from "@vx/gradient";
+import { letterFrequency } from "@vx/mock-data";
+import { scaleBand, scaleLinear } from "@vx/scale";
 
 const data = letterFrequency.slice(5);
 

@@ -1,5 +1,5 @@
-import { ParentSize } from '@vx/responsive';
-import React from 'react';
+import { ParentSize } from "@vx/responsive";
+import React from "react";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ export default class App extends React.Component {
                 top: 0,
                 left: 0,
                 right: 0,
-                bottom: 0,
+                bottom: 0
               }}
             />
           );

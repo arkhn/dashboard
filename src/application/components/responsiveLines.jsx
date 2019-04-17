@@ -1,7 +1,7 @@
-import React from 'react';
-import { ParentSize } from '@vx/responsive';
+import React from "react";
+import { ParentSize } from "@vx/responsive";
 
-import Lines from './lines';
+import Lines from "./lines";
 
 function Nav() {
   return (
@@ -24,7 +24,7 @@ export default class App extends React.Component {
   toggleNav() {
     this.setState(prevState => {
       return {
-        showNav: !prevState.showNav,
+        showNav: !prevState.showNav
       };
     });
   }
@@ -35,7 +35,7 @@ export default class App extends React.Component {
         <div
           className="app-nav"
           style={{
-            display: this.state.showNav ? 'flex' : 'none',
+            display: this.state.showNav ? "flex" : "none"
           }}
         >
           <Nav />
@@ -55,7 +55,7 @@ export default class App extends React.Component {
                       top: 0,
                       left: 0,
                       right: 0,
-                      bottom: 0,
+                      bottom: 0
                     }}
                   />
                 );
