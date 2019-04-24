@@ -4,6 +4,7 @@ import {
   Drawer,
   MenuItem,
   Navbar,
+  Classes
 } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import * as React from 'react'
@@ -18,6 +19,7 @@ import ResponsiveLines from '../../../components/responsiveLines'
 import Admissions from './components/admissions'
 import Gestes from './components/gestes2'
 import GestesRevenu from './components/gestes'
+import { DRAG_HANDLE_HORIZONTAL } from '@blueprintjs/icons/lib/esm/generated/iconContents';
 
 const arkhnLogoWhite = require("../../../../assets/img/arkhn_logo_only_white.svg")
 
@@ -54,7 +56,7 @@ bonjour
       `
 
       const ServiceSelect = Select.ofType<string>();
-
+      const averageStayLength = {__html: "SELECT <br/>&nbsp;&nbsp;&nbsp;&nbsp;AVG((e.resource#>>'{period, end}')::date - (e.resource#>>'{period, start}')::date) AS len <br />FROM<br />&nbsp;&nbsp;&nbsp;&nbsp;encounter e <br />WHERE <br/>&nbsp;&nbsp;&nbsp;&nbsp;e.resource#>>'{class, code}' = 'inpatient' <br/>&nbsp;&nbsp;&nbsp;&nbsp;OR<br/>&nbsp;&nbsp;&nbsp;&nbsp;e.resource#>>'{class, code}' = 'emergency';"}
       return (
         <div>
           <Drawer
@@ -65,7 +67,11 @@ bonjour
             }}
             title="Requête FHIR"
           >
-            <div>{this.state.fhirRequest}</div>
+            <div className={Classes.DRAWER_BODY}>
+              <div className={Classes.DIALOG_BODY}>
+                <pre dangerouslySetInnerHTML={this.state.fhirRequest}></pre>
+              </div>
+            </div>
           </Drawer>
 
           <Navbar id="navbar" className="bp3-dark">
@@ -151,7 +157,7 @@ bonjour
                 className='requestButton'
                 minimal icon='cog'
                 onClick={(event: any) => {
-                  this.handleOpen('')
+                  this.handleOpen(averageStayLength)
                 }}
               />
             </div>
