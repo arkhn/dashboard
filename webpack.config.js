@@ -8,7 +8,7 @@ var DIST_DIR = path.join(__dirname, "./dist");
 module.exports = {
   // Indicates where to start so as to build the module dependency graph
   context: SRC_DIR,
-  entry: "./application/app.tsx",
+  entry: "./app.tsx",
   // Where bundles should be emitted
   output: {
     path: DIST_DIR,
