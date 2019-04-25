@@ -4,16 +4,16 @@ import * as React from "react";
 
 import "./style.less";
 
-import Bar from "../../../components/bar";
-import BarGroup from "../../../components/barGroup";
-import Lines from "../../../components/lines";
-import ResponsiveLines from "../../../components/responsiveLines";
+import Bar from "../../components/bar";
+import BarGroup from "../../components/barGroup";
+import Lines from "../../components/lines";
+import ResponsiveLines from "../../components/responsiveLines";
 
 import Admissions from "./components/admissions";
 import Gestes from "./components/gestes2";
 import GestesRevenu from "./components/gestes";
 
-const arkhnLogoWhite = require("../../../../assets/img/arkhn_logo_only_white.svg");
+const arkhnLogoWhite = require("../../assets/img/arkhn_logo_only_white.svg");
 
 export interface IViewProps {}
 
