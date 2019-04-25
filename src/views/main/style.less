@@ -5,7 +5,7 @@
 @border-radius: 6px;
 
 body {
-  background-color: @light-gray5;
+  background-color: @light-gray3;
   color: @black;
 }
 
@@ -34,8 +34,8 @@ body {
   grid-column-gap: @window-padding;
   grid-row-gap: @window-padding;
   grid-template-areas:
-    "admissions rh sejour"
-    "admissions rh service"
+    "rh admissions sejour"
+    "rh admissions service"
     "beds consultations consultations"
     "bloc consultations consultations";
 
@@ -61,21 +61,22 @@ body {
   }
 
   .dashboard-module.warning {
-    background-color: @orange5;
-    border: 5px solid @orange5;
+    // background-color: @orange5;
+    border-left: 15px solid @orange4;
   }
 
   .dashboard-module.danger {
-    background-color: @red5;
-    border: 5px solid @red5;
+    // background-color: @red5;
+    border-left: 15px solid @red4;
   }
 
   .dashboard-module {
-    background-color: @light-gray4;
-    // background-color: @green5;
+    background-color: @light-gray5;
     border-radius: 5px;
+    box-shadow: 3px 3px 5px @light-gray1;
     padding: @window-padding;
     position: relative;
+    border-left: 15px solid transparent;
 
     .requestButton {
       position: absolute;
