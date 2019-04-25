@@ -27,6 +27,7 @@
     "@types/webpack": "^4.4.17",
     "@types/webpack-env": "^1.13.6",
     "@vx/axis": "0.0.184",
+    "@vx/glyph": "^0.0.183",
     "@vx/gradient": "0.0.183",
     "@vx/group": "0.0.183",
     "@vx/legend": "^0.0.183",

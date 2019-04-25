@@ -1,5 +1,6 @@
 import { Colors } from "@blueprintjs/core";
 import { AxisBottom, AxisLeft } from "@vx/axis";
+import { GlyphDot } from "@vx/glyph";
 import { Group } from "@vx/group";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
 import { genDateValue } from "@vx/mock-data";
@@ -50,6 +51,8 @@ const data = series.reduce((rec, d) => {
   return rec.concat(d);
 }, []);
 
+console.log(series);
+
 const x = d => d.date;
 const y = d => d.value;
 
@@ -85,13 +88,6 @@ export default () => {
           domain: [0, max(data, y)]
         });
 
-        const xScaleUnique = scaleTime({
-          range: [0, xMax],
-          domain: extent(series[0], x)
-        });
-
-        xScaleUnique.rangeRound([0, xMax]);
-
         return (
           <div>
             <svg width={w} height={h - padding.top}>
@@ -106,6 +102,21 @@ export default () => {
                         stroke={colors[i]}
                         strokeWidth={2}
                       />
+                      {d.map((p, j) => {
+                        const cx = xScale(x(p));
+                        const cy = yScale(y(p));
+                        return (
+                          <g key={`line-point-${j}`}>
+                            <GlyphDot
+                              cx={cx}
+                              cy={cy}
+                              r={7}
+                              fill={Colors.LIGHT_GRAY5}
+                            />
+                            <GlyphDot cx={cx} cy={cy} r={4} fill={colors[i]} />
+                          </g>
+                        );
+                      })}
                     </Group>
                   );
                 })}
