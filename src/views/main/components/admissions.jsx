@@ -1,6 +1,7 @@
 import { Colors } from "@blueprintjs/core";
-import { AxisBottom } from "@vx/axis";
+import { AxisBottom, AxisLeft } from "@vx/axis";
 import { Group } from "@vx/group";
+import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
 import { ParentSize } from "@vx/responsive";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@vx/scale";
 import { BarGroup, LinePath } from "@vx/shape";
@@ -39,7 +40,7 @@ const dataLastYear = [
 const keys = ["Entrées", "Sorties"];
 
 const parseDate = timeParse("%Y%m%d");
-const format = timeFormat("%a %d %b");
+const format = timeFormat("%d %b");
 const formatDate = date => format(parseDate(date));
 
 // accessors
@@ -84,11 +85,11 @@ const color = scaleOrdinal({
 
 let tooltipTimeout;
 
-const TestComponent = withTooltip(
+const CoreComponent = withTooltip(
   ({
     w,
     h,
-    padding = { top: 40 },
+    padding = { top: 40, left: 40 },
     tooltipOpen,
     tooltipLeft,
     tooltipTop,
@@ -97,7 +98,7 @@ const TestComponent = withTooltip(
     showTooltip
   }) => {
     // bounds
-    const xMax = w;
+    const xMax = w - padding.left;
     const yMax = h - padding.top - 50;
 
     x0Scale.rangeRound([0, xMax]);
@@ -116,7 +117,7 @@ const TestComponent = withTooltip(
             className="svg-dashboard-module"
           />
           <text className="title">Entrées et Sorties</text>
-          <Group top={padding.top}>
+          <Group top={padding.top} left={padding.left}>
             <BarGroup
               data={data}
               keys={keys}
@@ -177,22 +178,6 @@ const TestComponent = withTooltip(
                 });
               }}
             </BarGroup>
-            <LinePath
-              data={dataLastYear}
-              x={d => x0ScaleLastYear(d.date) + 0.5 * x1Scale.bandwidth()}
-              y={d => yScale(d["Entrées"])}
-              opacity={0.7}
-              stroke={color12}
-              strokeWidth={3}
-            />
-            <LinePath
-              data={dataLastYear}
-              x={d => x0ScaleLastYear(d.date) + 1.5 * x1Scale.bandwidth()}
-              y={d => yScale(d["Sorties"])}
-              opacity={0.7}
-              stroke={color22}
-              strokeWidth={3}
-            />
             <AxisBottom
               top={yMax}
               tickFormat={formatDate}
@@ -206,8 +191,50 @@ const TestComponent = withTooltip(
                 textAnchor: "middle"
               })}
             />
+            <AxisLeft
+              scale={yScale}
+              stroke={axisColor}
+              tickStroke={axisColor}
+              hideAxisLine={true}
+              tickLabelProps={(value, index) => ({
+                dy: "0.4em",
+                fill: axisColor,
+                fontSize: 11,
+                textAnchor: "end"
+              })}
+            />
           </Group>
         </svg>
+        <LegendOrdinal
+          scale={color}
+          labelFormat={label => `${label.toUpperCase()}`}
+        >
+          {labels => {
+            return (
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                {labels.map((label, i) => {
+                  const size = 10;
+                  return (
+                    <LegendItem
+                      key={`legend-quantile-${i}`}
+                      margin={"0 5px"}
+                      onClick={event => {
+                        alert(`clicked: ${JSON.stringify(label)}`);
+                      }}
+                    >
+                      <svg width={size} height={size}>
+                        <rect fill={label.value} width={size} height={size} />
+                      </svg>
+                      <LegendLabel align={"left"} margin={"0 0 0 4px"}>
+                        {label.text}
+                      </LegendLabel>
+                    </LegendItem>
+                  );
+                })}
+              </div>
+            );
+          }}
+        </LegendOrdinal>
         {tooltipOpen && (
           <Tooltip
             top={tooltipTop}
@@ -229,11 +256,11 @@ const TestComponent = withTooltip(
   }
 );
 
-export default ({ padding = { top: 40 } }) => {
+export default ({ padding = { top: 40, left: 40 } }) => {
   return (
     <ParentSize>
       {({ width: w, height: h }) => {
-        return <TestComponent padding={padding} w={w} h={h} />;
+        return <CoreComponent padding={padding} w={w} h={h} />;
       }}
     </ParentSize>
   );

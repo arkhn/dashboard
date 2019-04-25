@@ -888,6 +888,15 @@
     classnames "^2.2.5"
     prop-types "^15.6.2"
 
+"@vx/legend@^0.0.183":
+  version "0.0.183"
+  resolved "https://registry.yarnpkg.com/@vx/legend/-/legend-0.0.183.tgz#b9f7b6a1cd20a0a0cb143b4dea8a30957b1838a8"
+  integrity sha512-pb4EYhPythpvILzD9+89tmrZnsOym8f2nAh1s8luqKLL0KOZ1+r26kyVA7l16bECklVo+bXJeORfhjf5ZIddaA==
+  dependencies:
+    "@vx/group" "0.0.183"
+    classnames "^2.2.5"
+    prop-types "^15.5.10"
+
 "@vx/mock-data@0.0.185":
   version "0.0.185"
   resolved "https://registry.yarnpkg.com/@vx/mock-data/-/mock-data-0.0.185.tgz#c73c2998152eac905abd9a2efdb4c0ec96c0bbf8"

@@ -29,6 +29,7 @@
     "@vx/axis": "0.0.184",
     "@vx/gradient": "0.0.183",
     "@vx/group": "0.0.183",
+    "@vx/legend": "^0.0.183",
     "@vx/mock-data": "0.0.185",
     "@vx/responsive": "0.0.188",
     "@vx/scale": "0.0.182",
