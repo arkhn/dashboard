@@ -205,36 +205,38 @@ const CoreComponent = withTooltip(
             />
           </Group>
         </svg>
-        <LegendOrdinal
-          scale={color}
-          labelFormat={label => `${label.toUpperCase()}`}
-        >
-          {labels => {
-            return (
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                {labels.map((label, i) => {
-                  const size = 10;
-                  return (
-                    <LegendItem
-                      key={`legend-quantile-${i}`}
-                      margin={"0 5px"}
-                      onClick={event => {
-                        alert(`clicked: ${JSON.stringify(label)}`);
-                      }}
-                    >
-                      <svg width={size} height={size}>
-                        <rect fill={label.value} width={size} height={size} />
-                      </svg>
-                      <LegendLabel align={"left"} margin={"0 0 0 4px"}>
-                        {label.text}
-                      </LegendLabel>
-                    </LegendItem>
-                  );
-                })}
-              </div>
-            );
-          }}
-        </LegendOrdinal>
+        <div className="legend">
+          <LegendOrdinal
+            scale={color}
+            labelFormat={label => `${label.toUpperCase()}`}
+          >
+            {labels => {
+              return (
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  {labels.map((label, i) => {
+                    const size = 10;
+                    return (
+                      <LegendItem
+                        key={`legend-quantile-${i}`}
+                        margin={"0 5px"}
+                        onClick={event => {
+                          alert(`clicked: ${JSON.stringify(label)}`);
+                        }}
+                      >
+                        <svg width={size} height={size}>
+                          <rect fill={label.value} width={size} height={size} />
+                        </svg>
+                        <LegendLabel align={"left"} margin={"0 0 0 4px"}>
+                          {label.text}
+                        </LegendLabel>
+                      </LegendItem>
+                    );
+                  })}
+                </div>
+              );
+            }}
+          </LegendOrdinal>
+        </div>
         {tooltipOpen && (
           <Tooltip
             top={tooltipTop}
