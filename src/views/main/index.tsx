@@ -1,7 +1,10 @@
 import {
   Alignment,
   Button,
+  ControlGroup,
+  Checkbox,
   Drawer,
+  FormGroup,
   MenuItem,
   Navbar,
   NumericInput
@@ -18,11 +21,13 @@ import ResponsiveLines from "../../components/responsiveLines";
 
 import Admissions from "./components/Admissions";
 import Beds from "./components/Beds";
+import BedsDrawer from "./components/Beds/components/Drawer";
 import Bloc from "./components/Bloc";
 import Consultations from "./components/Consultations";
 import Gestes from "./components/Gestes";
 import GestesRevenu from "./components/GestesRevenu";
 import Resources from "./components/Resources";
+import ResourcesDrawer from "./components/Resources/components/Drawer";
 
 const arkhnLogoWhite = require("../../assets/img/arkhn_logo_only_white.svg");
 
@@ -43,19 +48,25 @@ const MainView = () => {
   const [totalBeds, setTotalBeds] = React.useState(500);
   const [warningBeds, setWarningBeds] = React.useState(400);
   const [dangerBeds, setDangerBeds] = React.useState(480);
+  const [notifyWarningBeds, setNotifyWarningBeds] = React.useState(false);
+  const [notifyDangerBeds, setNotifyDangerBeds] = React.useState(false);
 
   const [ide, setIde] = React.useState(102);
   const [totalIde, setTotalIde] = React.useState(108);
   const [warningIde, setWarningIde] = React.useState(80);
+  const [notifyWarningIde, setNotifyWarningIde] = React.useState(false);
   const [dangerIde, setDangerIde] = React.useState(100);
+  const [notifyDangerIde, setNotifyDangerIde] = React.useState(false);
 
   const [aides, setAides] = React.useState(87);
   const [totalAides, setTotalAides] = React.useState(113);
   const [warningAides, setWarningAides] = React.useState(90);
+  const [notifyWarningAides, setNotifyWarningAides] = React.useState(false);
   const [dangerAides, setDangerAides] = React.useState(100);
+  const [notifyDangerAides, setNotifyDangerAides] = React.useState(false);
 
-  const handleOpen = (component: any) => {
-    setDrawerComponent(component);
+  const handleOpen = (componentName: string) => {
+    setDrawerComponent(componentName);
     setDrawerOpen(true);
   };
 
@@ -71,7 +82,36 @@ const MainView = () => {
         }}
         title="Configuration"
       >
-        <div>{drawerComponent}</div>
+        <BedsDrawer
+          warningBeds={warningBeds}
+          setWarningBeds={setWarningBeds}
+          notifyWarningBeds={notifyWarningBeds}
+          setNotifyWarningBeds={setNotifyWarningBeds}
+          dangerBeds={dangerBeds}
+          setDangerBeds={setDangerBeds}
+          notifyDangerBeds={notifyDangerBeds}
+          setNotifyDangerBeds={setNotifyDangerBeds}
+          visible={drawerComponent == "beds"}
+        />
+        <ResourcesDrawer
+          warningIde={warningIde}
+          setWarningIde={setWarningIde}
+          notifyWarningIde={notifyWarningIde}
+          setNotifyWarningIde={setNotifyWarningIde}
+          dangerIde={dangerIde}
+          setDangerIde={setDangerIde}
+          notifyDangerIde={notifyDangerIde}
+          setNotifyDangerIde={setNotifyDangerIde}
+          warningAides={warningAides}
+          setWarningAides={setWarningAides}
+          notifyWarningAides={notifyWarningAides}
+          setNotifyWarningAides={setNotifyWarningAides}
+          dangerAides={dangerAides}
+          setDangerAides={setDangerAides}
+          notifyDangerAides={notifyDangerAides}
+          setNotifyDangerAides={setNotifyDangerAides}
+          visible={drawerComponent == "rh"}
+        />
       </Drawer>
 
       <Navbar id="navbar" className="bp3-dark">
@@ -127,28 +167,7 @@ const MainView = () => {
             minimal
             icon="cog"
             onClick={(event: any) => {
-              handleOpen(
-                <div>
-                  <NumericInput
-                    value={warningBeds}
-                    onValueChange={(
-                      valueAsNumber: number,
-                      valueAsString: string
-                    ) => {
-                      setWarningBeds(valueAsNumber);
-                    }}
-                  />
-                  <NumericInput
-                    value={dangerBeds}
-                    onValueChange={(
-                      valueAsNumber: number,
-                      valueAsString: string
-                    ) => {
-                      setDangerBeds(valueAsNumber);
-                    }}
-                  />
-                </div>
-              );
+              handleOpen("beds");
             }}
           />
         </div>
@@ -218,46 +237,7 @@ const MainView = () => {
             minimal
             icon="cog"
             onClick={(event: any) => {
-              handleOpen(
-                <div>
-                  <NumericInput
-                    value={warningIde}
-                    onValueChange={(
-                      valueAsNumber: number,
-                      valueAsString: string
-                    ) => {
-                      setWarningIde(valueAsNumber);
-                    }}
-                  />
-                  <NumericInput
-                    value={dangerIde}
-                    onValueChange={(
-                      valueAsNumber: number,
-                      valueAsString: string
-                    ) => {
-                      setDangerIde(valueAsNumber);
-                    }}
-                  />
-                  <NumericInput
-                    value={warningAides}
-                    onValueChange={(
-                      valueAsNumber: number,
-                      valueAsString: string
-                    ) => {
-                      setWarningAides(valueAsNumber);
-                    }}
-                  />
-                  <NumericInput
-                    value={dangerAides}
-                    onValueChange={(
-                      valueAsNumber: number,
-                      valueAsString: string
-                    ) => {
-                      setDangerAides(valueAsNumber);
-                    }}
-                  />
-                </div>
-              );
+              handleOpen("rh");
             }}
           />
         </div>
