@@ -12,5 +12,5 @@ jobs:
           command: |
             docker build -f Dockerfile.test -t arkhn/dashboard:latest .
             docker run --name dashboard_test arkhn/dashboard:latest
-            docker cp dashboard:/usr/src/app/coverage .
+            docker cp dashboard_test:/usr/src/app/coverage .
             bash <(curl -s https://codecov.io/bash)
