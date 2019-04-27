@@ -1,0 +1,19 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~
+    docker:
+      - image: circleci/node:chakracore-10.13
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Docker compose up pyrog server
+          command: docker-compose up --build -d
+      - run:
+          name: Build and run docker container for server tests ; Update codecov results
+          command: |
+            docker build -f Dockerfile.test -t arkhn/dashboard:latest .
+            docker run --name dashboard_test arkhn/dashboard:latest
+            docker cp dashboard:/usr/src/app/coverage .
+            bash <(curl -s https://codecov.io/bash)
