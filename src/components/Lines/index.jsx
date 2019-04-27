@@ -21,7 +21,7 @@ const data = series.reduce((rec, d) => {
 const x = d => d.date;
 const y = d => d.value;
 
-export default ({ width, height }) => {
+const Lines = ({ width, height }) => {
   // bounds
   const xMax = width;
   const yMax = height / 8;
@@ -57,3 +57,5 @@ export default ({ width, height }) => {
     </svg>
   );
 };
+
+export default Lines;
