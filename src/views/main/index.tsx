@@ -16,7 +16,7 @@ import "./style.less";
 
 import Bar from "../../components/bar";
 import BarGroup from "../../components/barGroup";
-import Lines from "../../components/lines";
+import Lines from "../../components/Lines";
 import ResponsiveLines from "../../components/responsiveLines";
 
 import Admissions from "./components/Admissions";
