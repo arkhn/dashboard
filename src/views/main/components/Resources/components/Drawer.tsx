@@ -44,6 +44,7 @@ const Component = ({
   return (
     <div style={{ display: visible ? "block" : "none" }}>
       <Threshold
+        warning
         label="Avertissement IDE"
         threshold={warningIde}
         setThreshold={setWarningIde}
@@ -51,6 +52,7 @@ const Component = ({
         setNotify={setNotifyWarningIde}
       />
       <Threshold
+        danger
         label="Danger IDE"
         threshold={dangerIde}
         setThreshold={setDangerIde}
@@ -58,6 +60,7 @@ const Component = ({
         setNotify={setNotifyDangerIde}
       />
       <Threshold
+        warning
         label="Avertissement Aides"
         threshold={warningAides}
         setThreshold={setWarningAides}
@@ -65,6 +68,7 @@ const Component = ({
         setNotify={setNotifyWarningAides}
       />
       <Threshold
+        danger
         label="Danger Aides"
         threshold={dangerAides}
         setThreshold={setDangerAides}
