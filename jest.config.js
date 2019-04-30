@@ -13,7 +13,9 @@ module.exports = {
   testPathIgnorePatterns: ["/node_modules/"],
   transform: {
     "\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
-    "^.+\\.(ts|tsx)?$": "ts-jest"
+    "^.+\\.(ts|tsx)?$": "ts-jest",
+    ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$":
+      "jest-transform-stub"
   },
   transformIgnorePatterns: ["/node_modules/"]
 };
