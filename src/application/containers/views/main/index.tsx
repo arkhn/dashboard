@@ -22,6 +22,9 @@ import GestesRevenu from './components/gestes'
 import { DRAG_HANDLE_HORIZONTAL } from '@blueprintjs/icons/lib/esm/generated/iconContents';
 
 const arkhnLogoWhite = require("../../../../assets/img/arkhn_logo_only_white.svg")
+const arkhnLogoBlack = require("../../../../assets/img/arkhn_logo_only_black.svg")
+
+import {AverageStayLength, InAndOutPatients, AvailableBeds, ERStayDuration} from './tooltips'
 
 export interface IViewProps {
 
@@ -37,26 +40,24 @@ export default class MainView extends React.Component<IViewProps, IState> {
     constructor(props: IViewProps) {
         super(props)
         this.state = {
-          fhirRequest: null,
+          requestComponent: null,
           isOpen: false,
           service: 'Gériatrie',
         }
     }
 
-    handleOpen = (request: any) => {
+    handleOpen = (component: any) => {
       this.setState({
-        fhirRequest: request,
+        requestComponent: component,
         isOpen: true,
       })
     }
 
     public render = () => {
-      const attenteRequest = `
-bonjour
-      `
+
 
       const ServiceSelect = Select.ofType<string>();
-      const averageStayLength = {__html: "SELECT <br/>&nbsp;&nbsp;&nbsp;&nbsp;AVG((e.resource#>>'{period, end}')::date - (e.resource#>>'{period, start}')::date) AS len <br />FROM<br />&nbsp;&nbsp;&nbsp;&nbsp;encounter e <br />WHERE <br/>&nbsp;&nbsp;&nbsp;&nbsp;e.resource#>>'{class, code}' = 'inpatient' <br/>&nbsp;&nbsp;&nbsp;&nbsp;OR<br/>&nbsp;&nbsp;&nbsp;&nbsp;e.resource#>>'{class, code}' = 'emergency';"}
+      const inAndOutpatients = {__html: "SELECT date_trunc('month', (e.resource#>>'{period, end}')::date) as date, count(*) as sorties FROM encounter e WHERE e.resource#>>'{class, code}' = 'inpatient' OR e.resource#>>'{class, code}' = 'emergency' GROUP BY date ORDER BY date DESC LIMIT 10;<br/>SELECT date_trunc(‘month', (e.resource#>>'{period, start}')::date) as date, count(*) as entrees FROM encounter e WHERE e.resource#>>'{class, code}' = 'inpatient' OR e.resource#>>'{class, code}' = 'emergency' GROUP BY date ORDER BY date DESC LIMIT 10;"}
       return (
         <div>
           <Drawer
@@ -69,9 +70,10 @@ bonjour
           >
             <div className={Classes.DRAWER_BODY}>
               <div className={Classes.DIALOG_BODY}>
-                <pre dangerouslySetInnerHTML={this.state.fhirRequest}></pre>
-              </div>
+                {this.state.requestComponent}
             </div>
+            </div>
+            <div className={Classes.DRAWER_FOOTER}><span dangerouslySetInnerHTML={{__html: arkhnLogoBlack}}></span>ARKHN</div>
           </Drawer>
 
           <Navbar id="navbar" className="bp3-dark">
@@ -113,18 +115,18 @@ bonjour
                 className='requestButton'
                 minimal icon='cog'
                 onClick={(event: any) => {
-                  this.handleOpen('')
+                  this.handleOpen(<InAndOutPatients />)
                 }}
               />
             </div>
             <div id='attente' className='dashboard-module'>
-              <div className='title'>Temps d'Attente aux Urgences<br/>(24 dernières heures)</div>
+              <div className='title'>Temps d'Attente moyen aux Urgences</div>
               <div className='value primary'>2 h 30 min</div>
               <Button
                 className='requestButton'
                 minimal icon='cog'
                 onClick={(event: any) => {
-                  this.handleOpen(attenteRequest)
+                  this.handleOpen(<ERStayDuration/>)
                 }}
               />
             </div>
@@ -140,13 +142,31 @@ bonjour
               />
             </div>
             <div id='service' className='dashboard-module'>
-              <div className='title'>Patients Hébergés Hors Service</div>
-              <div className='value primary'>2</div>
+            <div className='title'>Lits disponibles</div>
+              <table>
+                <tr>
+                  <td className='smallValue primary'>14</td>
+                  <td className='rightValue'>Total</td>
+                </tr>
+                <tr>
+                  <td className='smallValue success'>5</td>
+                  <td className='rightValue'>UHCD</td>
+                </tr>
+                <tr>
+                  <td className='smallValue danger'>0</td>
+                  <td className='rightValue'>USIC</td>
+                </tr>
+                <tr>
+                  <td className='smallValue warning'>2</td>
+                  <td className='rightValue'>Réanimation</td>
+                </tr>
+
+              </table>
               <Button
                 className='requestButton'
                 minimal icon='cog'
                 onClick={(event: any) => {
-                  this.handleOpen('')
+                  this.handleOpen(<AvailableBeds />)
                 }}
               />
             </div>
@@ -157,7 +177,7 @@ bonjour
                 className='requestButton'
                 minimal icon='cog'
                 onClick={(event: any) => {
-                  this.handleOpen(averageStayLength)
+                  this.handleOpen(<AverageStayLength />)
                 }}
               />
             </div>
