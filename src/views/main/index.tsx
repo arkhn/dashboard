@@ -72,6 +72,40 @@ const MainView = () => {
 
   const ServiceSelect = Select.ofType<string>();
 
+  React.useEffect(() => {
+    // setPatients(DATA_TEST);
+    let mkFhir = require("fhir.js");
+
+    // let client = mkFhir({
+    //   baseUrl: "http://hapi.fhir.org/baseR4/"
+    // });
+
+    // client
+    //   .search({ type: "Patient", query: { birthdate: "1995" } })
+    //   .then(function(res: any) {
+    //     var bundle = res.data;
+    //     var count = (bundle.entry && bundle.entry.length) || 0;
+    //     console.log("# Patients born in 1974: ", count);
+    //     let pats = res.data.entry.map((x: any) => {
+    //       console.log(x.resource);
+    //       return x.resource;
+    //     });
+
+    //     // setPatients(pats);
+    //   })
+    //   .catch(function(res: any) {
+    //     //Error responses
+    //     if (res.status) {
+    //       console.log("Error", res.status);
+    //     }
+
+    //     //Errors
+    //     if (res.message) {
+    //       console.log("Error", res.message);
+    //     }
+    //   });
+  }, []);
+
   return (
     <div>
       <Drawer
