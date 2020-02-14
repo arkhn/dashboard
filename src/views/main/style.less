@@ -5,7 +5,7 @@
 @border-radius: 6px;
 
 body {
-  background-color: @light-gray5;
+  background-color: @light-gray3;
   color: @black;
 }
 
@@ -34,10 +34,10 @@ body {
   grid-column-gap: @window-padding;
   grid-row-gap: @window-padding;
   grid-template-areas:
-    "admissions gestesRevenu sejour"
-    "admissions gestesRevenu service"
-    "attente gestes gestes"
-    "hospitalisation gestes gestes";
+    "rh admissions sejour"
+    "rh admissions service"
+    "beds consultations consultations"
+    "bloc consultations consultations";
 
   & > * {
     padding: calc(2 * @window-padding);
@@ -60,11 +60,23 @@ body {
     rx: 5;
   }
 
+  .dashboard-module.warning {
+    // background-color: @orange5;
+    border-left: 15px solid @orange4;
+  }
+
+  .dashboard-module.danger {
+    // background-color: @red5;
+    border-left: 15px solid @red4;
+  }
+
   .dashboard-module {
-    background-color: @light-gray4;
+    background-color: @light-gray5;
     border-radius: 5px;
+    box-shadow: 3px 3px 5px @light-gray1;
     padding: @window-padding;
     position: relative;
+    border-left: 15px solid transparent;
 
     .requestButton {
       position: absolute;
@@ -108,6 +120,22 @@ body {
     grid-area: hospitalisation;
   }
 
+  #beds {
+    grid-area: beds;
+  }
+
+  #bloc {
+    grid-area: bloc;
+  }
+
+  #consultations {
+    grid-area: consultations;
+  }
+
+  #rh {
+    grid-area: rh;
+  }
+
   #attente {
     grid-area: attente;
   }
@@ -132,6 +160,10 @@ body {
 
   .right-align {
     text-align: right;
+  }
+
+  .legend > * {
+    justify-content: center;
   }
 }
 .modal {
