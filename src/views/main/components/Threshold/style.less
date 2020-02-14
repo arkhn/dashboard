@@ -1,0 +1,57 @@
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/core/lib/less/variables";
+
+@padding: 20px;
+
+.threshold-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: @padding @padding;
+  padding: @padding;
+  background-color: @light-gray4;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px -1px @gray5;
+
+  &.warning {
+    border-left: 5px solid @orange4;
+  }
+
+  &.danger {
+    border-left: 5px solid @red4;
+  }
+
+  .value {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .bp3-label {
+      margin: 0px @padding 0px 0px;
+    }
+  }
+
+  .notifications {
+    display: flex;
+    direction: row;
+    align-items: center;
+    background-color: @light-gray2;
+    border-radius: 3px;
+    padding: 10px;
+
+    &.checked {
+      .bp3-icon > svg {
+        fill: @blue3;
+      }
+    }
+
+    .bp3-icon > svg {
+      fill: @gray1;
+    }
+
+    .bp3-control {
+      margin-bottom: 0px;
+    }
+  }
+}
